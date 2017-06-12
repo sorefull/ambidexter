@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'ambidexter'
-  s.version     = '0.0.2'
+  s.version     = '0.0.3'
   s.executables << 'ambidexter'
   s.date        = '2016-06-12'
   s.summary     = "Gem for testing network for HTML stuff"

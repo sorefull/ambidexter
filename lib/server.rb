@@ -41,11 +41,11 @@ class Server < Application
     def do_POST(request, response)
       file_data = request.query["uploaded_image"]
       random_string = SecureRandom.hex(3)
-      f = File.open("tmp/#{random_string}_image.jpeg", "wb")
+      f = File.open("#{__dir__}/../tmp/#{random_string}_image.jpeg", "wb")
       f.syswrite file_data
       f.close
-      response.status = FileUtils.compare_file("tmp/#{random_string}_image.jpeg", 'files/image.jpeg') ? 200 : 500
-      FileUtils.rm_rf("tmp/#{random_string}_image.jpeg")
+      response.status = FileUtils.compare_file("#{__dir__}/../tmp/#{random_string}_image.jpeg", "#{__dir__}/../files/image.jpeg") ? 200 : 500
+      FileUtils.rm_rf("#{__dir__}/../tmp/#{random_string}_image.jpeg")
     end
   end
 
@@ -53,8 +53,8 @@ class Server < Application
     print "Input Port of servrer: ".green
     @port = $stdin.gets.chomp
     @port = '5899' if blank? @port
-    FileUtils.rm_rf('tmp')
-    Dir.mkdir('tmp')
+    FileUtils.rm_rf("#{__dir__}/../tmp")
+    Dir.mkdir("#{__dir__}/../tmp")
   end
 
   def mount
@@ -63,7 +63,7 @@ class Server < Application
     @server.mount "/lorem",     LoremPath
     @server.mount "/cookie",    CookiePath
     @server.mount "/file",      FilePath
-    @server.mount('/file.txt',  WEBrick::HTTPServlet::DefaultFileHandler, './files/file.txt')
+    @server.mount('/file.txt',  WEBrick::HTTPServlet::DefaultFileHandler, "#{__dir__}/../files/file.txt")
   end
 
   def start

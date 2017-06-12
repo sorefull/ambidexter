@@ -115,7 +115,7 @@ class Client < Application
           t = Time.now
           response = Curl.get(@uri + file_name)
           @req_times << Time.now - t
-          file = File.open("./files#{file_name}", 'r')
+          file = File.open("#{__dir__}/../files#{file_name}", 'r')
           if response.body == file.read && response.status == '200 OK'
             print '.'.green
           else
@@ -127,7 +127,7 @@ class Client < Application
           response = Curl::Easy.new(@uri + '/file')
           response.multipart_form_post = true
           t = Time.now
-          response.http_post(Curl::PostField.file('uploaded_image', "./files/#{file_name}"))
+          response.http_post(Curl::PostField.file('uploaded_image', "#{__dir__}/../files/#{file_name}"))
           @req_times << Time.now - t
           if response.status == '200 OK'
             print '.'.green
