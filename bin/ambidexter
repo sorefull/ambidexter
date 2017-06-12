@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+require 'server'
+require 'client'
+
+if ARGV.include?('server')
+  server = Server.new
+  server.mount
+  server.start
+elsif ARGV.include?('client')
+  client = Client.new
+  client.test
+  puts
+  puts client.result
+end
