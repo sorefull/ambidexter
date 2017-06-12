@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'ambidexter'
-  s.version     = '0.0.1'
+  s.version     = '0.0.2'
   s.executables << 'ambidexter'
   s.date        = '2016-06-12'
   s.summary     = "Gem for testing network for HTML stuff"
@@ -10,7 +10,9 @@ Gem::Specification.new do |s|
   s.files       = ["lib/server.rb",
                    "lib/client.rb",
                    "lib/application.rb",
-                   "bin/ambidexter"]
+                   "bin/ambidexter",
+                   "files/file.txt",
+                   "files/image.jpeg"]
   s.homepage    =
     'http://rubygems.org/gems/ambidexter'
   s.license       = 'MIT'
