@@ -6,7 +6,7 @@ It is diploma project, so I'm gonna build Rome in one day, actually in 7 like a 
 
 ## Installation
 
-Current version `v0.0.3` is workins, seriously.
+Current version `v0.0.3` is working, seriously.
 
 `gem install ambidexter`
 
