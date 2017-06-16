@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'ambidexter'
-  s.version     = '0.0.6'
+  s.version     = '0.0.7'
   s.executables << 'ambidexter'
   s.date        = '2016-06-12'
   s.summary     = 'Gem for testing network for HTML stuff'
@@ -17,4 +17,5 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
   s.add_dependency 'curb', '~> 0.9.3'
   s.add_dependency 'colorize', '~> 0.8.1'
+  s.add_dependency 'usagewatch', '~>0.0.7'
 end

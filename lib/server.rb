@@ -2,6 +2,7 @@ require "application"
 require "webrick"
 include WEBrick
 require 'securerandom'
+require 'usagewatch'
 
 class Server < Application
   class RootPath < WEBrick::HTTPServlet::AbstractServlet
@@ -49,6 +50,27 @@ class Server < Application
     end
   end
 
+  class ExitPath < WEBrick::HTTPServlet::AbstractServlet
+    def do_POST(request, response)
+      @@req_results = request.query['results'].split(' ').map{|r| r.to_f}
+      @@package_loss = request.query['package_loss'].to_i
+      @@package_rec = request.query['package_rec'].to_i
+      response.status = 200
+    end
+
+    def self.results
+      @@req_results ||= []
+    end
+
+    def self.loss
+      @@package_loss ||= 0
+    end
+
+    def self.rec
+      @@package_rec ||= 0
+    end
+  end
+
   def initialize
     print "Input Port of servrer: ".green
     @port = $stdin.gets.chomp
@@ -64,12 +86,59 @@ class Server < Application
     @server.mount "/cookie",    CookiePath
     @server.mount "/file",      FilePath
     @server.mount('/file.txt',  WEBrick::HTTPServlet::DefaultFileHandler, "#{__dir__}/../files/file.txt")
+    @server.mount '/exit',      ExitPathrequire "pry"
+
   end
 
   def start
+    @usw = Usagewatch
+    @new0 = @usw.bandrx
+    @time0 = Time.now
+
     ['TERM', 'INT'].each do |signal|
-      trap(signal){ @server.shutdown }
+      trap(signal){
+        @server.shutdown
+        statistics
+      }
     end
     @server.start
+  end
+
+  def statistics
+    new1 = @usw.bandrx
+    time1 = Time.now
+
+    bytesreceived = new1[0].to_i - @new0[0].to_i
+    bitsreceived = bytesreceived * 8
+    bandwidth = (bitsreceived.to_f / 1024 / 1024).round(3)
+    time = (time1 - @time0).round(3)
+    sum_req_times = ExitPath.results.sum.round(3)
+    package_loss = ExitPath.loss
+    package_rec = ExitPath.rec
+    average_req_times = begin
+      if ExitPath.results.empty?
+        0
+      else
+        (ExitPath.results.inject{ |sum, el| sum + el } / ExitPath.results.size).round(3)
+      end
+    end
+    bandwidth_per_time = (bandwidth / time).round(3)
+
+    puts
+    puts '------------------------------------------------------------------'.green
+    puts "~>  AMBIDEXTER's SUMMARY".yellow
+    puts
+    puts "#{time} seconds Server sesion time".yellow
+    puts "#{bandwidth} Mbit Current Bandwidth Received".yellow
+    puts "#{bandwidth_per_time} Mbit/s Average Bandwidth Received".yellow
+    puts "#{sum_req_times} seconds Summary request time".yellow
+    puts "#{average_req_times} seconds Average request time".yellow
+    if package_loss > 0
+      puts "#{package_loss} Packages lost".red
+    end
+    puts "#{package_rec} Packages received".yellow
+    puts
+                     puts "Made by Oleg Cherednichenko 2017, KNURE".rjust 66
+    puts '------------------------------------------------------------------'.green
   end
 end

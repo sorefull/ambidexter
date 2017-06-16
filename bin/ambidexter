@@ -10,6 +10,6 @@ if ARGV.include?('server')
 elsif ARGV.include?('client')
   client = Client.new
   client.test
+  client.send_results
   puts
-  puts client.result
 end
