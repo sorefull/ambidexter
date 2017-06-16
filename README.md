@@ -6,7 +6,7 @@ It is diploma project, so I'm gonna build Rome in one day, actually in 7 like a 
 
 ## Installation
 
-Current version `v0.0.6` is working, seriously.
+Current version `v0.0.7` is working, seriously.
 
 On Ubuntu, the [curb](https://github.com/taf2/curb) dependencies can be satisfied by installing the following packages:
 
