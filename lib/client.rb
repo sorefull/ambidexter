@@ -14,8 +14,8 @@ class Client < Application
     @port = $stdin.gets.chomp
     @port = '5899' if blank? @port
 
-    # Setting eterations count
-    print "Input eterations count: ".green
+    # Setting iterations count
+    print "Input iterations count: ".green
     @each_count = $stdin.gets.chomp.to_i
     @each_count = 1 if @each_count.zero?
 
