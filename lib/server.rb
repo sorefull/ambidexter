@@ -86,8 +86,7 @@ class Server < Application
     @server.mount "/cookie",    CookiePath
     @server.mount "/file",      FilePath
     @server.mount('/file.txt',  WEBrick::HTTPServlet::DefaultFileHandler, "#{__dir__}/../files/file.txt")
-    @server.mount '/exit',      ExitPathrequire "pry"
-
+    @server.mount '/exit',      ExitPath
   end
 
   def start
